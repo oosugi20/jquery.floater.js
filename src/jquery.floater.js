@@ -26,6 +26,7 @@ Module = function (element, options) {
 	fn.init = function () {
 		this._createClone();
 		this.toFloat();
+		this.hide();
 		this._eventify();
 	};
 
