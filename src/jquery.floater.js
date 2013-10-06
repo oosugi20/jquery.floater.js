@@ -13,6 +13,9 @@ Module = function (element, options) {
 	this.el = element;
 	this.$el = $(element);
 	this.options = $.extend({
+		position: 'bottom', // top | bottom
+		hide_over: true,
+		shift: 0
 	}, options);
 };
 
@@ -21,7 +24,8 @@ Module = function (element, options) {
 	 * init
 	 */
 	fn.init = function () {
-		this._prepareElms();
+		this._createClone();
+		this.toFloat();
 		this._eventify();
 	};
 
@@ -35,6 +39,104 @@ Module = function (element, options) {
 	 * _eventify
 	 */
 	fn._eventify = function () {
+		var _this = this;
+		if (this.options.hide_over) {
+			$(window).on('scroll', function () {
+				if (_this.isDisplay()) {
+					_this.hide();
+				} else {
+					_this.show();
+				}
+			});
+		}
+	};
+
+	///**
+	// * isOnOriginal
+	// */
+	//fn.isOnOriginal = function () {
+	//	return ($(window).scrollTop() + this.$clone.position().top === this.$el.position().top);
+	//};
+
+	/**
+	 * isOverOriginal
+	 */
+	fn.isOverOriginal = function () {
+		return ($(window).scrollTop() + this.$clone.position().top >= this.$el.position().top);
+	};
+
+	/**
+	 * isNotOverOriginal
+	 */
+	fn.isNotOverOriginal = function () {
+		return ($(window).scrollTop() + this.$clone.position().top <= this.$el.position().top);
+	};
+
+	/**
+	 * isDisplay
+	 */
+	fn.isDisplay = function () {
+		var result;
+		switch (this.options.position) {
+			case 'top':
+				result = this.isNotOverOriginal();
+				break;
+			case 'bottom':
+				result = this.isOverOriginal();
+				break;
+		}
+		return result;
+	};
+
+	/**
+	 * _createClone
+	 */
+	fn._createClone = function () {
+		this.$clone = this.$el.clone();
+		this.$clone.appendTo('body');
+	};
+
+	/**
+	 * toFloat
+	 */
+	fn.toFloat = function () {
+		var shift = this.options.shift;
+		switch (this.options.position) {
+			case 'top':
+				this.$clone.css({
+					position: 'fixed',
+					top: 0 + shift,
+					left: 0,
+					zIndex: 99999
+				});
+				break;
+			case 'bottom':
+				this.$clone.css({
+					position: 'fixed',
+					bottom: 0 + shift,
+					left: 0,
+					zIndex: 99999
+				});
+				break;
+		}
+	};
+
+	/**
+	 * show
+	 */
+	fn.show = function () {
+		this.$clone.css({
+			visibility: 'visible'
+		});
+	};
+
+	/**
+	 * hide
+	 */
+	fn.hide = function () {
+		this.$clone.css({
+			visibility: 'hidden'
+		});
 	};
 
 })(Module.prototype);
