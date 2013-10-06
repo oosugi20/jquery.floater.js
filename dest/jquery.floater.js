@@ -1,7 +1,7 @@
 /*! jquery.floater.js (git@github.com:oosugi20/jquery.floater.js.git)
 * 
  * lastupdate: 2013-10-07
- * version: 0.1.0
+ * version: 0.1.1
  * author: Makoto OOSUGI <oosugi20@gmail.com>
  * License: MIT
  */
@@ -33,6 +33,7 @@ Module = function (element, options) {
 	fn.init = function () {
 		this._createClone();
 		this.toFloat();
+		this.hide();
 		this._eventify();
 	};
 
