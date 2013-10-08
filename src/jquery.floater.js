@@ -15,6 +15,7 @@ Module = function (element, options) {
 	this.options = $.extend({
 		position: 'bottom', // top | bottom
 		hide_over: true,
+		init_show: false,
 		shift: 0
 	}, options);
 };
@@ -26,8 +27,10 @@ Module = function (element, options) {
 	fn.init = function () {
 		this._createClone();
 		this.toFloat();
-		this.hide();
 		this._eventify();
+		if (!this.options.init_show) {
+			this.hide();
+		}
 	};
 
 	/**
