@@ -1,7 +1,7 @@
 /*! jquery.floater.js (git@github.com:oosugi20/jquery.floater.js.git)
 * 
- * lastupdate: 2013-10-07
- * version: 0.1.1
+ * lastupdate: 2013-10-09
+ * version: 0.1.2
  * author: Makoto OOSUGI <oosugi20@gmail.com>
  * License: MIT
  */
@@ -22,6 +22,8 @@ Module = function (element, options) {
 	this.options = $.extend({
 		position: 'bottom', // top | bottom
 		hide_over: true,
+		init_show: false,
+		show_original: true,
 		shift: 0
 	}, options);
 };
@@ -33,8 +35,13 @@ Module = function (element, options) {
 	fn.init = function () {
 		this._createClone();
 		this.toFloat();
-		this.hide();
 		this._eventify();
+		if (!this.options.init_show) {
+			this.hide();
+		}
+		if (!this.options.show_original) {
+			this.$el.hide();
+		}
 	};
 
 	/**
