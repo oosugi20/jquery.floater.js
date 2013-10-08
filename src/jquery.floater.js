@@ -16,6 +16,7 @@ Module = function (element, options) {
 		position: 'bottom', // top | bottom
 		hide_over: true,
 		init_show: false,
+		show_original: true,
 		shift: 0
 	}, options);
 };
@@ -30,6 +31,9 @@ Module = function (element, options) {
 		this._eventify();
 		if (!this.options.init_show) {
 			this.hide();
+		}
+		if (!this.options.show_original) {
+			this.$el.hide();
 		}
 	};
 
